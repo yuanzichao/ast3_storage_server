@@ -12,12 +12,9 @@
 #include "../sql/sql.h"
 
 
-#ifndef SRC_REQUEST_REQUEST_H_
-#define SRC_REQUEST_REQUEST_H_
+#define ASSOCIATE_FILES 1			//关联文件数
+#define REQUEST_NUM 1			//关联文件数
 
-char* request_str;
-
-int gen_request(char *fileName, char *dirName, char *diskName);					//生成请求消息
+int parse_request(char* request_str);					//生成请求消息
 
 
-#endif /* SRC_REQUEST_REQUEST_H_ */
