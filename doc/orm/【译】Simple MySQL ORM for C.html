@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)http://daoluan.net/blog/simple-mysql-orm-for-c-translation/ -->
+<html lang="zh-CN"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>【译】Simple MySQL ORM for C - 捣乱小子</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://daoluan.net/blog/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://daoluan.net/blog/wp-content/themes/twentytwelve/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<!-- All in One SEO Pack 2.2.5.1 by Michael Torbert of Semper Fi Web Design[298,337] -->
+<link rel="author" href="https://plus.google.com/115102431774399294975?rel=author">
+<meta name="description" content="Simple MySQL ORM for C">
+
+<meta name="keywords" content="simple mysql orm for c,c/c++,gtd项目实录,linux,mysql,开源应用,cplusplus">
+
+<link rel="canonical" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/【译】Simple MySQL ORM for C - 捣乱小子.html">
+<meta property="og:title" content="【译】Simple MySQL ORM for C - 捣乱小子">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://daoluan.net/blog/simple-mysql-orm-for-c-translation/">
+<meta property="og:image" content="http://daoluan.net/blog/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png">
+<meta property="og:site_name" content="捣乱小子">
+<meta property="og:description" content="Simple MySQL ORM for C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Simple MySQL ORM for C">
+<meta itemprop="image" content="http://daoluan.net/blog/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png">
+			<script async="" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/analytics.js"></script><script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-45497945-1', 'auto');
+			
+			ga('send', 'pageview');
+			</script>
+<!-- /all in one seo pack -->
+<link rel="alternate" type="application/rss+xml" title="捣乱小子 » Feed" href="http://daoluan.net/blog/feed/">
+<link rel="alternate" type="application/rss+xml" title="捣乱小子 » 评论Feed" href="http://daoluan.net/blog/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="捣乱小子 » 【译】Simple MySQL ORM for C评论Feed" href="http://daoluan.net/blog/simple-mysql-orm-for-c-translation/feed/">
+<link rel="stylesheet" id="wp-easyarchives-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/wp-easyarchives.css" type="text/css" media="screen">
+<link rel="stylesheet" id="toc-screen-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/screen.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentytwelve-style-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://daoluan.net/blog/wp-content/themes/twentytwelve/css/ie.css?ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="pre-tag-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/pre.css" type="text/css" media="all">
+<link rel="stylesheet" id="core3.0-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/shCore.css" type="text/css" media="all">
+<link rel="stylesheet" id="core-Eclipse3.0-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/shCoreEclipse.css" type="text/css" media="all">
+<link rel="stylesheet" id="theme-Eclipse3.0-css" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/shThemeEclipse.css" type="text/css" media="all">
+<script type="text/javascript" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/jquery.js"></script>
+<script type="text/javascript" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/jquery-migrate.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://daoluan.net/blog/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://daoluan.net/blog/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="STL求交集、并集、差集和对称差集" href="http://daoluan.net/blog/stl-set-operations/">
+<link rel="next" title="GTD时间管理作品总结" href="http://daoluan.net/blog/gtd-summary/">
+<meta name="generator" content="WordPress 4.1.5">
+<link rel="shortlink" href="http://daoluan.net/blog/?p=1613">
+<script type="text/javascript">var ajaxurl = "http://daoluan.net/blog/wp-admin/admin-ajax.php"</script>
+<!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code Begin -->
+<style type="text/css">
+.syntaxhighlighter,
+.syntaxhighlighter a,
+.syntaxhighlighter div,
+.syntaxhighlighter code,
+.syntaxhighlighter table,
+.syntaxhighlighter table td,
+.syntaxhighlighter table tr,
+.syntaxhighlighter table tbody,
+.syntaxhighlighter table thead,
+.syntaxhighlighter table caption,
+.syntaxhighlighter textarea {
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+line-height:1.5 !important;
+}
+.syntaxhighlighter table caption {
+/* For Title(Caption) */  
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.syntaxhighlighter.nogutter td.code .line {
+/* Set the left padding space when no-gutter in ver. 3.0 */  
+padding-left: 3px !important;
+}
+.syntaxhighlighter {
+/* For Chrome/Safari(WebKit) */  
+/* Hide the superfluous vertical scrollbar in ver. 3.0 */  
+overflow-y: hidden !important;
+padding: 1px !important;
+}
+.widget-area.syntaxhighlighter a,
+.widget-area.syntaxhighlighter div,
+.widget-area.syntaxhighlighter code,
+.widget-area.syntaxhighlighter table,
+.widget-area.syntaxhighlighter table td,
+.widget-area.syntaxhighlighter table tr,
+.widget-area.syntaxhighlighter table tbody,
+.widget-area.syntaxhighlighter table thead,
+.widget-area.syntaxhighlighter table caption,
+.widget-area.syntaxhighlighter textarea {
+/* For Widget */  
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.widget-area table caption {
+/* For Widget */  
+/* For Title(Caption) */  
+font-size: 10px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+
+
+</style>
+<!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code End -->
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+	<style type="text/css" id="twentytwelve-header-css">
+			.site-header h1 a,
+		.site-header h2 {
+			color: #444444;
+		}
+		</style>
+	<script type="text/javascript" async="" charset="UTF-8" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/embed.js"></script><style type="text/css"></style><link type="text/css" rel="stylesheet" href="./【译】Simple MySQL ORM for C - 捣乱小子_files/embed.default.css"></head>
+
+<body class="single single-post postid-1613 single-format-standard custom-background single-author">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<hgroup>
+			<h1 class="site-title"><a href="http://daoluan.net/blog/" title="捣乱小子" rel="home">捣乱小子</a></h1>
+			<h2 class="site-description">Not only tech.</h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<button class="menu-toggle">菜单</button>
+			<a class="assistive-text" href="http://daoluan.net/blog/simple-mysql-orm-for-c-translation/#content" title="跳至内容">跳至内容</a>
+			<div class="nav-menu"><ul><li><a href="http://daoluan.net/blog/">首页</a></li><li class="page_item page-item-806"><a href="http://daoluan.net/blog/sort/">文章目录</a></li><li class="page_item page-item-522"><a href="http://daoluan.net/blog/books/">读书</a></li><li class="page_item page-item-2"><a href="http://daoluan.net/blog/about/">关于</a></li></ul></div>
+		</nav><!-- #site-navigation -->
+
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			
+				
+	<article id="post-1613" class="post-1613 post type-post status-publish format-standard hentry category-cplusplus category-linux tag-cc-3 tag-gtd tag-linux tag-mysql tag-64">
+				<header class="entry-header">
+			
+						<h1 class="entry-title">【译】Simple MySQL ORM for C</h1>
+										<div class="comments-link">
+					<a href="http://daoluan.net/blog/simple-mysql-orm-for-c-translation/#respond" title="Comment on 【译】Simple MySQL ORM for C"><span class="leave-reply">发表回复</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>一直不知道有ORM这种东西，直到和 @海坡 交流后才接触。</p>
+<p>在项目中，需要将数据存储到数据库中，首先想到的是生成各种raw SQL的解决方法。但随着项目的进展，发现它很不灵活。譬如可能因为有新的需求，在数据库student表中添加dept_no字段，那在各种raw SQ中就需要进行修改了，工程浩大。如果操作（插入\修改\删除）数据库表中的数据，和操作数据对象一样，可以简化很多的操作，便于数据层的变更，而不必修改逻辑层代码。</p>
+<p><span id="more-1613"></span></p>
+<pre class="brush: actionscript3; gutter: true">//项目随手摘录的一个构造插入指定对象数据的INSERT语句的方法。
+int gtd_genInsertSql(struct task_t &amp;toinsert,char *sql, int nUserID)
+{
+    int curr = 0;
+
+    //task_id | user_id | strtext
+    curr += sprintf(sql,"insert into task values(%d,%d,'%s',",
+        toinsert.id,nUserID/*user_id*/,toinsert.strtext);
+
+    //ctime    
+    char buffer[32];
+    ::memset(buffer,0,sizeof(buffer));
+
+    strftime(buffer,32,"'2012-%m-%d %H-%M-%S',",&amp;(toinsert.ctime));
+    strncpy(sql+curr,buffer,strlen(buffer));
+    curr += strlen(buffer);
+......
+    *(sql + curr) = ')';
+    curr++;
+    return curr;
+}</pre>
+<p>ORM，即对象关系映射，ORM的设计就是数据库持久层的设计。目前流行有一些成熟的ORM框架，对应各种语言都有。</p>
+<p>因为项目实际需要，挑选了一个轻便的框架：Simple MySQL ORM for C。google了下，只发现有Simple MySQL ORM for C作者的一篇英文博文介绍而已：http://ales.jikos.cz/smorm/。「打米量家底」，因为那篇文章不太长，所以把它翻译过来了。记得年前 @独酌逸醉 有提到过，他有翻译StackOverFlow上的精华帖。现在看来，譬如对C++熟悉，完全可以去看看外国的程序员社区。一方面你本身是程序员，专业对口，认得大多数单词；另一方面，国外高手也多，不为是提高技术的好机会；最后，它确实提高英语的好方法，赞一个。</p>
+<p>下面是《Simple MySQL ORM for 》的译文，原文链接：<a href="http://ales.jikos.cz/smorm/">http://ales.jikos.cz/smorm/</a></p>
+<h3 style="text-align: center;">【译】Simple MySQL ORM for C</h3>
+<p style="text-align: center;">作者：alesak</p>
+<p>c版本Simple MySQL ORM是用python的脚本完成的，它可以用来连接已经创建的MySQL数据库，读取数据库表所对应的数据结构，当然，也可以通过此数据结构和方法创建表。这些可以让开发者使用c语言很方便的更新/修改/删除数据库中的数据。</p>
+<p>之前，笔者需要在强大的数据库里面存储检索结构化数据。笔者更倾向于使用MySQL和c语言。但笔者对自己写的粗糙代码和互联网上找到的巨费资源的解决方案已经很厌烦了，所以干脆自己写了一个。很简单，很天真，下笔粗糙（python不是笔者的母语，抱歉了）。但相信情人眼里出西施，笔者想象着让它更有用一点。还有，关于它的文档。。。</p>
+<p>考虑到这只是一个技术文章，而不是一个使用手册。笔者最后取消了此文章提到的项目，所以它有待考验。不支持MySQL里头的一些数据类型。这个项目的起因之一是笔者不喜欢MySQL提供的c api，所以代之以“更时髦”的万事俱备的api~但，笔者发现它有些地方还不够好，因为笔者还没完成。</p>
+<p>让我们开始吧。首先，你必须创建你的数据库表。笔者更喜欢一下这种方式，因为只有这样才能更充分使用数据库。</p>
+<pre class="brush: sql; gutter: true">CREATE DATABASE ex1;
+
+CREATE TABLE ex_customer (
+  id int NOT NULL auto_increment,
+  name char(32),
+  PRIMARY KEY  (id)
+);
+
+CREATE TABLE ex_item (
+  customer_id int,
+  itemname char(32)
+);</pre>
+<p>接下来，我们创建一个简单的python脚本db.py：</p>
+<pre class="brush: sql; gutter: true">dbname = "ex1"
+name = "db"
+tables = { }</pre>
+<p>在接下来，让它执行吧 :P</p>
+<pre class="brush: python; gutter: true">python rdb.py</pre>
+<p>当然，比起真正的rock，少点听觉享受。可能你会问，笔者到底要怎么连接到数据库啊？当然，那些只是默认用户写的……但看看我们得到的结果。我们可以已经有两个文件产生了，分别是：db.h和db.c。前者包含是象征数据库表的数据结构声明和操作这些数据结构的方法；后者包含了方法的定义，接着的是数据初始化的语句。我们来看看：</p>
+<pre class="brush: c; gutter: true">typedef struct db_ex_customer {
+        int id;
+        char * name;
+} db_ex_customer;
+
+typedef struct db_ex_item {
+        int customer_id;
+        char * itemname;
+} db_ex_item;</pre>
+<p>相信没有进一步解释这些东西的必要。让我们使用它们吧！笔者新建了ex1.c文件。注意：为了更容易读懂代码，笔者没有处理错误的返回值：</p>
+<pre class="brush: c; gutter: true">#include &lt;db.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;time.h&gt;
+
+int main (int argc, char **argv)
+{
+	int ret;
+	MYSQL global_mysql;
+	MYSQL *m;
+
+	db_ex_customer *cust1;
+	db_ex_item *item1, *item2;
+
+	mysql_init (&amp; global_mysql);
+
+	/*
+	 * connect to MySQL as usual
+	 */
+	m = mysql_real_connect (&amp; global_mysql, "localhost", "root", "", "ex1", 3036, NULL, 0);
+
+	/*
+	 * pass the MySQL connection to function, that initializes the "ORM"
+	 */
+	ret = db_init (&amp; global_mysql);
+
+	/*
+	 * the *__new method creates empty structure
+	 */
+	cust1 = db_ex_customer__new ();
+	/*
+	 * setting the structure attribute with allocated string,
+	 * it will be freed during call of *__free method
+	 */
+	cust1-&gt;name = strdup ("alesak");
+
+	/*
+	 * this method inserts the structure into according table.
+	 * If it has serial field, its value is reflected into structure
+	 */
+	ret = db_ex_customer__insert (cust1);
+
+	item1 = db_ex_item__new ();
+	/*
+	 * let's use the serial value from newly inserted customer
+	 */
+	item1-&gt;customer_id = cust1-&gt;id;
+	item1-&gt;itemname = strdup ("simple orm");
+
+	ret = db_ex_item__insert (item1);
+
+	item2 = db_ex_item__new ();
+	item2-&gt;customer_id = cust1-&gt;id;
+	item2-&gt;itemname = strdup ("advanced orm");
+
+	ret = db_ex_item__insert (item2);
+
+	db_ex_customer__free (cust1);
+	db_ex_item__free (item1);
+	db_ex_item__free (item2);
+
+	return (0);
+}</pre>
+<p>编译下：</p>
+<pre class="brush: bash; gutter: true">cc -I `mysql_config --cflags` ex1.c db.c `mysql_config --libs` -o ex1</pre>
+<p>运行可执行文件，发现它没错。这意味着，它已经一些数据已被存储。至少如果你让评价它，笔者会说很优雅。接下来，怎么去检索这些数据？假设，我们已经知道数据库表中记录的键值，笔者又新建了ex2.c文件。</p>
+<pre class="brush: c; gutter: true">#define _XOPEN_SOURCE 500
+#include &lt;db.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;time.h&gt;
+
+int main (int argc, char **argv)
+{
+	int ret;
+	MYSQL global_mysql;
+	MYSQL *m;
+
+	db_ex_customer *cust1;
+	db_ex_item *item1, *item2;
+
+	mysql_init (&amp; global_mysql);
+
+	m = mysql_real_connect (&amp; global_mysql, "localhost", "root", "", "ex1", 3036, NULL, 0);
+
+	ret = db_init (&amp; global_mysql);
+
+	cust1 = db_ex_customer__get_by_id (3);
+	if (cust1) {
+		fprintf (stdout, "I have customer named \'%s\'\n", cust1-&gt;name);
+		db_ex_customer__free (cust1);
+	}
+
+	return (0);
+}</pre>
+<p>跟前边一样，编译，然后执行：</p>
+<pre class="brush: bash; gutter: true">cc -I. `mysql_config --cflags` ex2.c db.c `mysql_config --libs` -o ex2
+./ex2</pre>
+<p>最后，笔者不想让ORM自动创建相关数据的查询，因为笔者相信它能做的好。（老实说，如果使用默认的MyISAM,它不可能判断相关数据）。当然，接下来笔者想要新建笔者自己的、超复杂的ex_items表与ex_customer标连接后的SELECT检索。编辑一下db.py：</p>
+<pre class="brush: python; gutter: true">dbname = "ex1"
+name = "db"
+tables = {
+		"ex_item" :[("get", "get_customer_items",
+			[("INTEGER", "customer_id")], "SELECT ex_item.* FROM ex_item WHERE customer_id = ?")]
+	}</pre>
+<p>重新执行db.puy脚本会添加新的db_ex_item__get_customer_items_*方法集。这些方法灵活之处在于，可以增加INTEGER类型的参数，在特定的SQL上打开游标：从游标读取一行记录，关闭游标。我们扩展ex2.c：</p>
+<pre class="brush: c; gutter: true">#define _XOPEN_SOURCE 500
+#include &lt;db.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;time.h&gt;
+
+int main (int argc, char **argv)
+{
+	int ret;
+	MYSQL global_mysql;
+	MYSQL *m;
+
+	db_ex_customer *cust1;
+	db_ex_item *item1, *item2;
+
+	mysql_init (&amp; global_mysql);
+
+	m = mysql_real_connect (&amp; global_mysql, "localhost", "root", "", "ex1", 3036, NULL, 0);
+
+	ret = db_init (&amp; global_mysql);
+
+	cust1 = db_ex_customer__get_by_id (3);
+	if (cust1) {
+		fprintf (stdout, "I have customer named \'%s\'..\n", cust1-&gt;name);
+
+		db_ex_item__get_customer_items_open (cust1-&gt;id);
+
+		while ((item1 = db_ex_item__get_customer_items_fetch ()) != NULL) {
+			fprintf (stdout, ".. and found his item named \'%s\'\n", item1-&gt;itemname);
+			db_ex_item__free (item1);
+		}
+		db_ex_item__get_customer_items_close ();
+
+		db_ex_customer__free (cust1);
+	}
+
+	return (0);
+}</pre>
+<p>得偿所愿，它打印的结果：</p>
+<pre>I have customer named 'alesak'..
+.. and found his item named 'simple orm'
+.. and found his item named 'advanced orm'</pre>
+<p>以上，朋友们！这里是<a href="http://ales.jikos.cz/smorm/rdb.py">http://ales.jikos.cz/smorm/rdb.py</a> 脚本。更确切的说，别下载这个破烂东西。但如果你喜欢这个点子，请告诉笔者：alesak#gmail.com。全文完。</p>
+<p>感谢作者 @alesak。Simple MySQL ORM for C我没有亲手测试，找时间补上测试篇。另，笔者水平有限，欢迎扶正拍砖。以上。</p>
+<p>捣乱 2013-3-22</p>
+<p><a href="http://daoluan.net/">http://daoluan.net</a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			本条目发布于<a href="./【译】Simple MySQL ORM for C - 捣乱小子_files/【译】Simple MySQL ORM for C - 捣乱小子.html" title="下午 12:48" rel="bookmark"><time class="entry-date" datetime="2013-03-22T12:48:49+00:00">2013/03/22</time></a>。属于<a href="http://daoluan.net/blog/category/cplusplus/" rel="category tag">cplusplus</a>、<a href="http://daoluan.net/blog/category/linux/" rel="category tag">linux</a>分类，被贴了 <a href="http://daoluan.net/blog/tag/cc-3/" rel="tag">C/C++</a>、<a href="http://daoluan.net/blog/tag/gtd%e9%a1%b9%e7%9b%ae%e5%ae%9e%e5%bd%95/" rel="tag">GTD项目实录</a>、<a href="http://daoluan.net/blog/tag/linux/" rel="tag">linux</a>、<a href="http://daoluan.net/blog/tag/mysql/" rel="tag">MySQL</a>、<a href="http://daoluan.net/blog/tag/%e5%bc%80%e6%ba%90%e5%ba%94%e7%94%a8/" rel="tag">开源应用</a> 标签。<span class="by-author">作者是<span class="author vcard"><a class="url fn n" href="http://daoluan.net/blog/author/daoluan/" title="查看所有由捣乱发布的文章" rel="author">捣乱</a></span>。</span>								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+
+				<nav class="nav-single">
+					<h3 class="assistive-text">文章导航</h3>
+					<span class="nav-previous"><a href="http://daoluan.net/blog/stl-set-operations/" rel="prev"><span class="meta-nav">←</span> STL求交集、并集、差集和对称差集</a></span>
+					<span class="nav-next"><a href="http://daoluan.net/blog/gtd-summary/" rel="next">GTD时间管理作品总结 <span class="meta-nav">→</span></a></span>
+				</nav><!-- .nav-single -->
+
+				<script type="text/javascript">
+var duoshuoQuery = {"short_name":"daoluan","sso":{"login":"http:\/\/daoluan.net\/blog\/wp-login.php?action=duoshuo_login","logout":"http:\/\/daoluan.net\/blog\/wp-login.php?action=logout&_wpnonce=d128d3313c"},"theme":"default","stylePatch":"wordpress\/Twenty_Twelve"};
+duoshuoQuery.sso.login += '&redirect_to=' + encodeURIComponent(window.location.href);
+duoshuoQuery.sso.logout += '&redirect_to=' + encodeURIComponent(window.location.href);
+(function() {
+    var ds = document.createElement('script'); ds.type = 'text/javascript'; ds.async = true;
+    ds.charset = 'UTF-8';
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script><a name="comments"></a>
+
+<div class="ds-thread" data-thread-key="1613" data-author-key="1" data-title="【译】Simple MySQL ORM for C" data-url="http://daoluan.net/blog/simple-mysql-orm-for-c-translation/" id="ds-thread"><div id="ds-reset"><div class="ds-meta" style="display: none;"><a href="javascript:void(0)" class="ds-like-thread-button ds-rounded"><span class="ds-icon ds-icon-heart"></span> <span class="ds-thread-like-text">喜欢</span><span class="ds-thread-cancel-like">取消喜欢</span></a><span class="ds-like-panel"></span></div><a name="respond"></a><div class="ds-login-buttons"><p>社交帐号登录:</p><div class="ds-social-links"><ul class="ds-service-list"><li><a href="http://daoluan.duoshuo.com/login/weibo/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-weibo">微博</a></li><li><a href="http://daoluan.duoshuo.com/login/qq/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-qq">QQ</a></li><li><a href="http://daoluan.duoshuo.com/login/renren/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-renren">人人</a></li><li><a href="http://daoluan.duoshuo.com/login/douban/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-douban">豆瓣</a></li><li><a class="ds-more-services" href="javascript:void(0)">更多»</a></li></ul><ul class="ds-service-list ds-additional-services"><li><a href="http://daoluan.duoshuo.com/login/kaixin/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-kaixin">开心</a></li><li><a href="http://daoluan.duoshuo.com/login/netease/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-netease">网易</a></li><li><a href="http://daoluan.duoshuo.com/login/sohu/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-sohu">搜狐</a></li><li><a href="http://daoluan.duoshuo.com/login/baidu/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-baidu">百度</a></li><li><a href="http://daoluan.duoshuo.com/login/google/?sso=1&redirect_uri=http%3A%2F%2Fdaoluan.net%2Fblog%2Fwp-login.php%3Faction%3Dduoshuo_login%26redirect_to%3Dhttp%253A%252F%252Fdaoluan.net%252Fblog%252Fsimple-mysql-orm-for-c-translation%252F" rel="nofollow" class="ds-service-link ds-google">谷歌</a></li></ul></div></div><div class="ds-replybox"><a class="ds-avatar" href="javascript:void(0);" onclick="return false"><img src="./【译】Simple MySQL ORM for C - 捣乱小子_files/noavatar_default.png" alt=""></a><form method="post"><input type="hidden" name="thread_id" value="1319634955176270884">
+<input type="hidden" name="parent_id" value="">
+<input type="hidden" name="nonce" value="553866c5c18fb"><div class="ds-textarea-wrapper ds-rounded-top"><textarea name="message" title="Ctrl+Enter快捷提交" placeholder="说点什么吧…"></textarea><pre class="ds-hidden-text"></pre></div><div class="ds-post-toolbar"><div class="ds-post-options ds-gradient-bg"><span class="ds-sync"></span></div><button class="ds-post-button" type="submit">发布</button><div class="ds-toolbar-buttons"></div></div></form></div><div class="ds-comments-info"><div class="ds-sort"><a class="ds-order-desc ds-current">最新</a><a class="ds-order-asc">最早</a><a class="ds-order-hot">最热</a></div><ul class="ds-comments-tabs"><li class="ds-tab"><a class="ds-comments-tab-duoshuo ds-current" href="javascript:void(0);">0评论</a></li>  </ul></div><ul class="ds-comments"><li class="ds-post ds-post-placeholder">还没有评论，沙发等你来抢</li></ul><div class="ds-paginator" style="display: none;"><div class="ds-border"></div><a data-page="1" href="javascript:void(0);" class="ds-current">1</a></div><p class="ds-powered-by"><a href="http://duoshuo.com/" target="_blank" rel="nofollow">多说</a></p></div></div>
+
+<script type="text/javascript">
+	if (typeof DUOSHUO !== 'undefined')
+		DUOSHUO.EmbedThread('.ds-thread');
+</script>
+	<div id="ds-ssr">
+
+		
+            <ol id="commentlist">
+                            </ol>
+
+		            
+    </div>
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+			<aside id="text-7" class="widget widget_text"><h3 class="widget-title">我们的书</h3>			<div class="textwidget">《redis 源码日志》<br>
+<a href="https://selfstore.io/products/362"><img src="./【译】Simple MySQL ORM for C - 捣乱小子_files/redis_source_note_cover.png"></a>
+<a href="http://daoluan.net/blog/wp-content/uploads/2015/05/weixin_pay.jpg">若本文对您有帮助，求打赏~ 谢谢您的支持和鼓励。</a>
+
+<hr>
+<a href="http://daoluan.net/itbirds/">
+<img src="./【译】Simple MySQL ORM for C - 捣乱小子_files/itbird_book_cover.png">
+</a>
+
+<br>
+
+这是我和一位同学合作的一本电子书, 记录了我们大学的成长历程. <a href="http://bibodeng.com/bibodeng/IT_birds/">点击进入主页</a></div>
+		</aside><aside id="text-6" class="widget widget_text"><h3 class="widget-title">联系</h3>			<div class="textwidget">email: g.daoluan(at)gmail.com<script src="./【译】Simple MySQL ORM for C - 捣乱小子_files/stat.php" language="JavaScript"></script><script src="./【译】Simple MySQL ORM for C - 捣乱小子_files/core.php" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=4810815" target="_blank" title="站长统计"><img border="0" hspace="0" vspace="0" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/pic1.gif"></a>
+<br>
+<a href="http://feed.feedsky.com/daoluan">更多的订阅</a>
+<br>
+
+<div id="weibowidget">
+</div>
+
+<!--
+<EMBED
+
+src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=57dda54a&uid=2313159920&width=230&height=500&fansRow=2&isTitle=1&isWeibo=1&isFans=1&noborder=0&ptype=1&colors=cfe1f3,fafcff,444444,5093d5"
+
+quality="high" width="230" height="500" align="L" scale="noborder"
+
+flashvars="width=230&height=500&uid=2313159920&skin=skin1"
+
+allowScriptAccess="sameDomain"
+
+type="application/x-shockwave-flash"></EMBED>
+--></div>
+		</aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">近期文章</h3>		<ul>
+					<li>
+				<a href="http://daoluan.net/blog/redis-source-note-release/">《Redis 源码日志》发布</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/hi-redis-source-note/">终于到了校验阶段</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/the-second-dog/">第二只小狗</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/lock-free-queue/">无锁消息队列</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/decode-redis-data-struct-intset/">深入剖析 redis 数据结构 intset</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/decode-redis-transaction/">深入剖析 redis 事务机制</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/decode-redis-data-struct-skiplist/">深入剖析 redis 数据结构 skiplist</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/decode-redis-data-struct-redisobject/">深入剖析 redis 数据结构 redisObject</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/decode-redis-data-struct-ziplist/">深入剖析 redis 数据结构 ziplist</a>
+						</li>
+					<li>
+				<a href="http://daoluan.net/blog/decode-redis-data-struct-dict/">深入剖析 redis 数据结构 dict</a>
+						</li>
+				</ul>
+		</aside><aside id="categories-6" class="widget widget_categories"><h3 class="widget-title">分类目录</h3>		<ul>
+	<li class="cat-item cat-item-5"><a href="http://daoluan.net/blog/category/cplusplus/">cplusplus</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://daoluan.net/blog/category/linux/">linux</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://daoluan.net/blog/category/mfc/">mfc</a>
+</li>
+	<li class="cat-item cat-item-83"><a href="http://daoluan.net/blog/category/%e4%ba%92%e8%81%94%e7%bd%91/">互联网</a>
+</li>
+	<li class="cat-item cat-item-62"><a href="http://daoluan.net/blog/category/%e6%80%9d%e7%bb%b4/">思维</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://daoluan.net/blog/category/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84/">数据结构</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://daoluan.net/blog/category/uncategorized/">未分类</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://daoluan.net/blog/category/%e7%ae%97%e6%b3%95/">算法</a>
+</li>
+	<li class="cat-item cat-item-42"><a href="http://daoluan.net/blog/category/%e8%b6%a3%e5%91%b3%e7%bc%96%e7%a8%8b/">编程小记</a>
+</li>
+	<li class="cat-item cat-item-58"><a href="http://daoluan.net/blog/category/%e7%bd%91%e7%bb%9c%e7%bc%96%e7%a8%8b/">网络编程</a>
+</li>
+	<li class="cat-item cat-item-81"><a href="http://daoluan.net/blog/category/%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f/">计算机系统</a>
+</li>
+	<li class="cat-item cat-item-68"><a href="http://daoluan.net/blog/category/%e8%af%bb%e4%b9%a6/">读书</a>
+</li>
+	<li class="cat-item cat-item-34"><a href="http://daoluan.net/blog/category/%e9%9a%8f%e7%ac%94/">随笔</a>
+</li>
+		</ul>
+</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">近期评论</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href="http://zs.144n.com/" rel="external nofollow" class="url">中山婚纱摄影</a></span>发表在《<a href="http://daoluan.net/blog/decode-redis-transaction/#comment-727">深入剖析 redis 事务机制</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://zs.144n.com/" rel="external nofollow" class="url">中山婚纱摄影</a></span>发表在《<a href="http://daoluan.net/blog/single-sign-on/#comment-726">初探单点登录 SSO</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://weibo.com/bibodeng" rel="external nofollow" class="url">bibo-果冻</a></span>发表在《<a href="http://daoluan.net/blog/hi-redis-source-note/#comment-725">终于到了校验阶段</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://weibo.com/daoluanxiaozi" rel="external nofollow" class="url">捣乱</a></span>发表在《<a href="http://daoluan.net/blog/about/#comment-724">关于</a>》</li><li class="recentcomments"><span class="comment-author-link">Multipluso</span>发表在《<a href="http://daoluan.net/blog/about/#comment-723">关于</a>》</li></ul></aside><aside id="linkcat-2" class="widget widget_links"><h3 class="widget-title">博友</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://bibodeng.sinaapp.com/">bibodeng</a></li>
+<li><a href="http://www.cguage.com/">C瓜哥</a></li>
+<li><a href="http://www.wutianqi.com/">Tanky Woo</a></li>
+<li><a href="http://haipo.me/">杨海坡的网志</a></li>
+<li><a href="http://www.programlife.net/">程序人生</a></li>
+
+	</ul>
+</aside>
+<aside id="meta-3" class="widget widget_meta"><h3 class="widget-title">功能</h3>			<ul>
+			<li><a href="http://daoluan.net/blog/wp-login.php?action=register">注册</a></li>			<li><a href="http://daoluan.net/blog/wp-login.php">登录</a></li>
+			<li><a href="http://daoluan.net/blog/feed/">文章<abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://daoluan.net/blog/comments/feed/">评论<abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://cn.wordpress.org/" title="基于WordPress，一个优美、先进的个人信息发布平台。">WordPress.org</a></li>			</ul>
+</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+						<a href="http://cn.wordpress.org/" title="优雅的个人发布平台">自豪地采用WordPress</a>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var tocplus = {"smooth_scroll":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/front.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var viewsCacheL10n = {"admin_ajax_url":"http:\/\/daoluan.net\/blog\/wp-admin\/admin-ajax.php","post_id":"1613"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/postviews-cache.js"></script>
+<script type="text/javascript" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/comment-reply.min.js"></script>
+<script type="text/javascript" src="./【译】Simple MySQL ORM for C - 捣乱小子_files/navigation.js"></script>
+
+</body></html>
