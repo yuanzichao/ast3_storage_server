@@ -10,10 +10,14 @@
 int
 parse_request(char* request_str) {
 
-	char *fileName;
-	char *dirName;
-	char *diskName;
-	char *other;
+	char fileName[MAX_BUF_SIZE];
+	char dirName[MAX_BUF_SIZE];
+	char diskName[MAX_BUF_SIZE];
+
+	memset(fileName, 0, sizeof(fileName));
+	memset(dirName, 0, sizeof(dirName));
+	memset(diskName, 0, sizeof(diskName));
+
 
 	cJSON * requests = cJSON_Parse (request_str);
 	cJSON * requests_arr = NULL;
@@ -38,17 +42,18 @@ parse_request(char* request_str) {
 
 				pItem = cJSON_GetObjectItem (request[i], "diskname");
 				memcpy(diskName, pItem->valuestring, strlen(pItem->valuestring));
-//				diskName = pItem->valuestring;
 
+				pItem = NULL;
 				pItem = cJSON_GetObjectItem(request[i], "dirname");
 				memcpy(dirName, pItem->valuestring, strlen(pItem->valuestring));
-//				dirName = pItem->valuestring;
+
 
 				files_arr = cJSON_GetObjectItem(request[i], "files");
 				count = cJSON_GetArraySize(files_arr);
 				int j;
 				for(j=0; j<count; j++) {
 					file[i] = cJSON_GetArrayItem(files_arr, j);
+					pItem = NULL;
 					pItem = cJSON_GetObjectItem(file[i], "filename");
 					memcpy(fileName, pItem->valuestring, strlen(pItem->valuestring));
 				}
@@ -63,6 +68,6 @@ parse_request(char* request_str) {
 	printf("dirName:%s\n", dirName);
 	printf("fileName:%s\n", fileName);
 
-    return EXIT_SUCCESS; // 返回成功
+	return 0;
 }
 

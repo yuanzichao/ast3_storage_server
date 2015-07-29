@@ -23,8 +23,6 @@ int main()
 
 
 
-
-
 	//初始化磁盘和目录
     memset(curr_disk, 0, sizeof(curr_disk));
     memcpy(curr_disk, "home", sizeof(curr_disk));
