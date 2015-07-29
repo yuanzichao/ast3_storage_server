@@ -8,14 +8,26 @@
 
 #include "dir_monitor.h"
 
+
+//监控目录路径
+char dir_monitor_path[MAX_BUF_SIZE];
+
+
 int
-dir_monitor(char* path) {
+dir_monitor() {
+
+	char new_dir[1024];			//绝对路径
+	memset(new_dir, 0, sizeof(new_dir));
+
+	//监控目录路径
+	GetProfileString("./etc/ast3_dir_monitor.conf", "DIR_PATH", "path", dir_monitor_path);
+
+	sprintf(new_dir, "%s", dir_monitor_path);		//存储绝对路径
 
 	int fd;
 	int len;
 	int nread;
 
-	int i;
 
 	char buf[BUFSIZ];
 
@@ -31,23 +43,31 @@ dir_monitor(char* path) {
 	}
 
 
-	dir_all_monitor(path, fd);
+	dir_all_monitor(dir_monitor_path, fd);
 
 
 	buf[sizeof(buf) - 1] = 0;
 
-	while( (len = read(fd, buf, sizeof(buf) - 1)) > 0 ) {
+	while((len = read(fd, buf, sizeof(buf) - 1)) > 0 ) {
 		nread = 0;
-		while( len > 0 ) {
+		while(len > 0) {
 			event = (struct inotify_event *)&buf[nread];
-			for(i=0; i<EVENT_NUM; i++) {
-				if((event->mask >> i) & 1) {
-					if(event->len > 0)
-						fprintf(stdout, "%s --- %s\n", event->name, event_str[i]);
-					else
-						fprintf(stdout, "%s --- %s\n", " ", event_str[i]);
+
+			if((event->mask & IN_CREATE) || (event->mask & IN_MOVE)) {
+				if(event->mask & IN_ISDIR) {
+
+					strcat(new_dir, "/");
+					strcat(new_dir, event->name);
+					dir_all_monitor(new_dir, fd);		//监控新目录
+					memset(new_dir, 0, sizeof(new_dir));
+					sprintf(new_dir, "%s", dir_monitor_path);		//存储绝对路径
+
+					printf("The directory %s was created.\n", event->name);
+				} else {
+					printf("The file %s was created.\n", event->name);
 				}
 			}
+
 
 			nread = nread + sizeof(struct inotify_event) + event->len;
 			len = len - sizeof(struct inotify_event) - event->len;
@@ -120,10 +140,4 @@ dir_all_monitor(char *path, int fd) {
 	return EXIT_SUCCESS;
 }
 
-int
-main() {
-	dir_monitor("/home/yuan/test/");
-
-	return 0;
-}
 

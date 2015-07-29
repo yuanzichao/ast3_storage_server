@@ -17,25 +17,10 @@
 #include <sys/stat.h>        // 提供属性操作函数
 #include <sys/types.h>         // 提供mode_t 类型
 
-#define MAX_BUF_SIZE 1024 // 缓冲区最大字节数
-
-#define EVENT_NUM 12
-
-char *event_str[EVENT_NUM] = {
-		"IN_ACCESS",
-		"IN_MODIFY",
-		"IN_ATTRIB",
-		"IN_CLOSE_WRITE",
-		"IN_CLOSE_NOWRITE",
-		"IN_OPEN",
-		"IN_MOVED_FROM",
-		"IN_MOVED_TO",
-		"IN_CREATE",
-		"IN_DELETE",
-		"IN_DELETE_SELF",
-		"IN_MOVE_SELF"
-};
+#include "../sql/sql.h"
+#include "../utils/read_conf.h"
 
 
-int dir_monitor(char* path);			//监控指定目录
+
+int dir_monitor();			//监控指定目录
 int dir_all_monitor(char *path, int fd);
