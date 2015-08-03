@@ -43,6 +43,54 @@ struct {
 	MYSQL_BIND res_file_info_get_by_id [14];
 	MYSQL_STMT *stmt_file_info_delete;
 	MYSQL_BIND par_file_info_delete [1];
+	MYSQL_STMT *stmt_history_20150716_upd;
+	MYSQL_BIND par_history_20150716_upd [4];
+	MYSQL_STMT *stmt_history_20150716_ins;
+	MYSQL_BIND par_history_20150716_ins [4];
+	MYSQL_STMT *stmt_history_20150716_save;
+	MYSQL_BIND par_history_20150716_save [4];
+	MYSQL_BIND res_history_20150716_load [3];
+	MYSQL_STMT *stmt_history_20150716_get_by_id;
+	MYSQL_BIND par_history_20150716_get_by_id [1];
+	MYSQL_BIND res_history_20150716_get_by_id [3];
+	MYSQL_STMT *stmt_history_20150716_delete;
+	MYSQL_BIND par_history_20150716_delete [1];
+	MYSQL_STMT *stmt_history_20150720_upd;
+	MYSQL_BIND par_history_20150720_upd [4];
+	MYSQL_STMT *stmt_history_20150720_ins;
+	MYSQL_BIND par_history_20150720_ins [4];
+	MYSQL_STMT *stmt_history_20150720_save;
+	MYSQL_BIND par_history_20150720_save [4];
+	MYSQL_BIND res_history_20150720_load [3];
+	MYSQL_STMT *stmt_history_20150720_get_by_id;
+	MYSQL_BIND par_history_20150720_get_by_id [1];
+	MYSQL_BIND res_history_20150720_get_by_id [3];
+	MYSQL_STMT *stmt_history_20150720_delete;
+	MYSQL_BIND par_history_20150720_delete [1];
+	MYSQL_STMT *stmt_history_20150722_upd;
+	MYSQL_BIND par_history_20150722_upd [4];
+	MYSQL_STMT *stmt_history_20150722_ins;
+	MYSQL_BIND par_history_20150722_ins [4];
+	MYSQL_STMT *stmt_history_20150722_save;
+	MYSQL_BIND par_history_20150722_save [4];
+	MYSQL_BIND res_history_20150722_load [3];
+	MYSQL_STMT *stmt_history_20150722_get_by_id;
+	MYSQL_BIND par_history_20150722_get_by_id [1];
+	MYSQL_BIND res_history_20150722_get_by_id [3];
+	MYSQL_STMT *stmt_history_20150722_delete;
+	MYSQL_BIND par_history_20150722_delete [1];
+	MYSQL_STMT *stmt_history_20150723_upd;
+	MYSQL_BIND par_history_20150723_upd [4];
+	MYSQL_STMT *stmt_history_20150723_ins;
+	MYSQL_BIND par_history_20150723_ins [4];
+	MYSQL_STMT *stmt_history_20150723_save;
+	MYSQL_BIND par_history_20150723_save [4];
+	MYSQL_BIND res_history_20150723_load [3];
+	MYSQL_STMT *stmt_history_20150723_get_by_id;
+	MYSQL_BIND par_history_20150723_get_by_id [1];
+	MYSQL_BIND res_history_20150723_get_by_id [3];
+	MYSQL_STMT *stmt_history_20150723_delete;
+	MYSQL_BIND par_history_20150723_delete [1];
 } db_struct;
 static int copyval_c2mysql_int (int *val, MYSQL_BIND* bnd)
 {
@@ -366,7 +414,7 @@ int db_init (MYSQL *mysql)
 	db_struct.par_disk_info_delete [0].buffer = malloc (sizeof(int));
 	db_struct.par_disk_info_delete [0].buffer_length = 0;
 	db_struct.stmt_disk_info_get_by_id = mysql_stmt_init (mysql);
-	sql = "SELECT disk_id, disk_name, disk_uuid, disk_type, disk_capacity, disk_used, recent_use_time, permisssion, disk_status FROM disk_info WHERE disk_id = ? ";
+	sql = "SELECT disk_id, disk_name, disk_uuid, disk_type, disk_capacity, disk_used, recent_use_time, permission, disk_status FROM disk_info WHERE disk_id = ? ";
 	ret = mysql_stmt_prepare (db_struct.stmt_disk_info_get_by_id , sql, strlen (sql));
 	if (ret) {
 		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_disk_info_get_by_id));
@@ -428,7 +476,7 @@ int db_init (MYSQL *mysql)
 	db_struct.par_disk_info_save [9].buffer = malloc (sizeof(int));
 	db_struct.par_disk_info_save [9].buffer_length = 0;
 	db_struct.stmt_disk_info_save = mysql_stmt_init (mysql);
-	sql = "REPLACE disk_info SET disk_id = ? , disk_name = ? , disk_uuid = ? , disk_type = ? , disk_capacity = ? , disk_used = ? , recent_use_time = ? , permisssion = ? , disk_status = ? ";
+	sql = "REPLACE disk_info SET disk_id = ? , disk_name = ? , disk_uuid = ? , disk_type = ? , disk_capacity = ? , disk_used = ? , recent_use_time = ? , permission = ? , disk_status = ? ";
 	ret = mysql_stmt_prepare (db_struct.stmt_disk_info_save, sql, strlen (sql));
 	if (ret) {
 		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_disk_info_save));
@@ -473,7 +521,7 @@ int db_init (MYSQL *mysql)
 	db_struct.par_disk_info_upd [9].buffer = malloc (sizeof(int));
 	db_struct.par_disk_info_upd [9].buffer_length = 0;
 	db_struct.stmt_disk_info_upd = mysql_stmt_init (mysql);
-	sql = "UPDATE disk_info SET disk_id = ? , disk_name = ? , disk_uuid = ? , disk_type = ? , disk_capacity = ? , disk_used = ? , recent_use_time = ? , permisssion = ? , disk_status = ? WHERE disk_id = ? ";
+	sql = "UPDATE disk_info SET disk_id = ? , disk_name = ? , disk_uuid = ? , disk_type = ? , disk_capacity = ? , disk_used = ? , recent_use_time = ? , permission = ? , disk_status = ? WHERE disk_id = ? ";
 	ret = mysql_stmt_prepare (db_struct.stmt_disk_info_upd, sql, strlen (sql));
 	if (ret) {
 		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_disk_info_upd));
@@ -518,7 +566,7 @@ int db_init (MYSQL *mysql)
 	db_struct.par_disk_info_ins [9].buffer = malloc (sizeof(int));
 	db_struct.par_disk_info_ins [9].buffer_length = 0;
 	db_struct.stmt_disk_info_ins = mysql_stmt_init (mysql);
-	sql = "INSERT INTO disk_info (disk_id, disk_name, disk_uuid, disk_type, disk_capacity, disk_used, recent_use_time, permisssion, disk_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	sql = "INSERT INTO disk_info (disk_id, disk_name, disk_uuid, disk_type, disk_capacity, disk_used, recent_use_time, permission, disk_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	ret = mysql_stmt_prepare (db_struct.stmt_disk_info_ins, sql, strlen (sql));
 	if (ret) {
 		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_disk_info_ins));
@@ -792,6 +840,482 @@ int db_init (MYSQL *mysql)
 		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_file_info_ins));
 		return (-1);
 	}
+	db_struct.res_history_20150716_load [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.res_history_20150716_load [0].buffer = malloc (sizeof(int));
+	db_struct.res_history_20150716_load [0].buffer_length = 0;
+	db_struct.res_history_20150716_load [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.res_history_20150716_load [1].buffer = malloc (255 + 1);
+	db_struct.res_history_20150716_load [1].buffer_length = 255;
+	db_struct.res_history_20150716_load [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.res_history_20150716_load [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.res_history_20150716_load [2].buffer_length = 0;
+	db_struct.par_history_20150716_get_by_id [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_get_by_id [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_get_by_id [0].buffer_length = 0;
+	db_struct.par_history_20150716_delete [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_delete [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_delete [0].buffer_length = 0;
+	db_struct.stmt_history_20150716_get_by_id = mysql_stmt_init (mysql);
+	sql = "SELECT id, operation, time FROM history_20150716 WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150716_get_by_id , sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150716_get_by_id, db_struct.par_history_20150716_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_result (db_struct.stmt_history_20150716_get_by_id, db_struct.res_history_20150716_load);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (-1);
+	}
+	db_struct.stmt_history_20150716_delete = mysql_stmt_init (mysql);
+	sql = "DELETE FROM history_20150716  WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150716_delete, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_delete));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150716_delete, db_struct.par_history_20150716_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (-1);
+	}
+	db_struct.par_history_20150716_save [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_save [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_save [0].buffer_length = 0;
+	db_struct.par_history_20150716_save [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150716_save [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150716_save [1].buffer_length = 255;
+	db_struct.par_history_20150716_save [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150716_save [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150716_save [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150716_save [2].buffer_length = 0;
+	db_struct.par_history_20150716_save [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_save [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_save [3].buffer_length = 0;
+	db_struct.stmt_history_20150716_save = mysql_stmt_init (mysql);
+	sql = "REPLACE history_20150716 SET id = ? , operation = ? , time = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150716_save, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_save));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150716_save, db_struct.par_history_20150716_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_save));
+		return (-1);
+	}
+	db_struct.par_history_20150716_upd [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_upd [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_upd [0].buffer_length = 0;
+	db_struct.par_history_20150716_upd [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150716_upd [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150716_upd [1].buffer_length = 255;
+	db_struct.par_history_20150716_upd [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150716_upd [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150716_upd [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150716_upd [2].buffer_length = 0;
+	db_struct.par_history_20150716_upd [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_upd [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_upd [3].buffer_length = 0;
+	db_struct.stmt_history_20150716_upd = mysql_stmt_init (mysql);
+	sql = "UPDATE history_20150716 SET id = ? , operation = ? , time = ? WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150716_upd, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_upd));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150716_upd, db_struct.par_history_20150716_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_upd));
+		return (-1);
+	}
+	db_struct.par_history_20150716_ins [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_ins [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_ins [0].buffer_length = 0;
+	db_struct.par_history_20150716_ins [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150716_ins [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150716_ins [1].buffer_length = 255;
+	db_struct.par_history_20150716_ins [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150716_ins [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150716_ins [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150716_ins [2].buffer_length = 0;
+	db_struct.par_history_20150716_ins [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150716_ins [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150716_ins [3].buffer_length = 0;
+	db_struct.stmt_history_20150716_ins = mysql_stmt_init (mysql);
+	sql = "INSERT INTO history_20150716 (id, operation, time) VALUES (?, ?, ?)";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150716_ins, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_ins));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150716_ins, db_struct.par_history_20150716_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_ins));
+		return (-1);
+	}
+	db_struct.res_history_20150720_load [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.res_history_20150720_load [0].buffer = malloc (sizeof(int));
+	db_struct.res_history_20150720_load [0].buffer_length = 0;
+	db_struct.res_history_20150720_load [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.res_history_20150720_load [1].buffer = malloc (255 + 1);
+	db_struct.res_history_20150720_load [1].buffer_length = 255;
+	db_struct.res_history_20150720_load [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.res_history_20150720_load [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.res_history_20150720_load [2].buffer_length = 0;
+	db_struct.par_history_20150720_get_by_id [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_get_by_id [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_get_by_id [0].buffer_length = 0;
+	db_struct.par_history_20150720_delete [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_delete [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_delete [0].buffer_length = 0;
+	db_struct.stmt_history_20150720_get_by_id = mysql_stmt_init (mysql);
+	sql = "SELECT id, operation, time FROM history_20150720 WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150720_get_by_id , sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150720_get_by_id, db_struct.par_history_20150720_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_result (db_struct.stmt_history_20150720_get_by_id, db_struct.res_history_20150720_load);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (-1);
+	}
+	db_struct.stmt_history_20150720_delete = mysql_stmt_init (mysql);
+	sql = "DELETE FROM history_20150720  WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150720_delete, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_delete));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150720_delete, db_struct.par_history_20150720_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (-1);
+	}
+	db_struct.par_history_20150720_save [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_save [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_save [0].buffer_length = 0;
+	db_struct.par_history_20150720_save [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150720_save [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150720_save [1].buffer_length = 255;
+	db_struct.par_history_20150720_save [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150720_save [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150720_save [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150720_save [2].buffer_length = 0;
+	db_struct.par_history_20150720_save [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_save [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_save [3].buffer_length = 0;
+	db_struct.stmt_history_20150720_save = mysql_stmt_init (mysql);
+	sql = "REPLACE history_20150720 SET id = ? , operation = ? , time = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150720_save, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_save));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150720_save, db_struct.par_history_20150720_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_save));
+		return (-1);
+	}
+	db_struct.par_history_20150720_upd [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_upd [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_upd [0].buffer_length = 0;
+	db_struct.par_history_20150720_upd [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150720_upd [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150720_upd [1].buffer_length = 255;
+	db_struct.par_history_20150720_upd [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150720_upd [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150720_upd [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150720_upd [2].buffer_length = 0;
+	db_struct.par_history_20150720_upd [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_upd [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_upd [3].buffer_length = 0;
+	db_struct.stmt_history_20150720_upd = mysql_stmt_init (mysql);
+	sql = "UPDATE history_20150720 SET id = ? , operation = ? , time = ? WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150720_upd, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_upd));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150720_upd, db_struct.par_history_20150720_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_upd));
+		return (-1);
+	}
+	db_struct.par_history_20150720_ins [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_ins [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_ins [0].buffer_length = 0;
+	db_struct.par_history_20150720_ins [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150720_ins [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150720_ins [1].buffer_length = 255;
+	db_struct.par_history_20150720_ins [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150720_ins [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150720_ins [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150720_ins [2].buffer_length = 0;
+	db_struct.par_history_20150720_ins [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150720_ins [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150720_ins [3].buffer_length = 0;
+	db_struct.stmt_history_20150720_ins = mysql_stmt_init (mysql);
+	sql = "INSERT INTO history_20150720 (id, operation, time) VALUES (?, ?, ?)";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150720_ins, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_ins));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150720_ins, db_struct.par_history_20150720_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_ins));
+		return (-1);
+	}
+	db_struct.res_history_20150722_load [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.res_history_20150722_load [0].buffer = malloc (sizeof(int));
+	db_struct.res_history_20150722_load [0].buffer_length = 0;
+	db_struct.res_history_20150722_load [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.res_history_20150722_load [1].buffer = malloc (255 + 1);
+	db_struct.res_history_20150722_load [1].buffer_length = 255;
+	db_struct.res_history_20150722_load [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.res_history_20150722_load [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.res_history_20150722_load [2].buffer_length = 0;
+	db_struct.par_history_20150722_get_by_id [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_get_by_id [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_get_by_id [0].buffer_length = 0;
+	db_struct.par_history_20150722_delete [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_delete [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_delete [0].buffer_length = 0;
+	db_struct.stmt_history_20150722_get_by_id = mysql_stmt_init (mysql);
+	sql = "SELECT id, operation, time FROM history_20150722 WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150722_get_by_id , sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150722_get_by_id, db_struct.par_history_20150722_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_result (db_struct.stmt_history_20150722_get_by_id, db_struct.res_history_20150722_load);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (-1);
+	}
+	db_struct.stmt_history_20150722_delete = mysql_stmt_init (mysql);
+	sql = "DELETE FROM history_20150722  WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150722_delete, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_delete));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150722_delete, db_struct.par_history_20150722_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (-1);
+	}
+	db_struct.par_history_20150722_save [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_save [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_save [0].buffer_length = 0;
+	db_struct.par_history_20150722_save [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150722_save [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150722_save [1].buffer_length = 255;
+	db_struct.par_history_20150722_save [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150722_save [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150722_save [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150722_save [2].buffer_length = 0;
+	db_struct.par_history_20150722_save [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_save [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_save [3].buffer_length = 0;
+	db_struct.stmt_history_20150722_save = mysql_stmt_init (mysql);
+	sql = "REPLACE history_20150722 SET id = ? , operation = ? , time = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150722_save, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_save));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150722_save, db_struct.par_history_20150722_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_save));
+		return (-1);
+	}
+	db_struct.par_history_20150722_upd [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_upd [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_upd [0].buffer_length = 0;
+	db_struct.par_history_20150722_upd [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150722_upd [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150722_upd [1].buffer_length = 255;
+	db_struct.par_history_20150722_upd [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150722_upd [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150722_upd [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150722_upd [2].buffer_length = 0;
+	db_struct.par_history_20150722_upd [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_upd [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_upd [3].buffer_length = 0;
+	db_struct.stmt_history_20150722_upd = mysql_stmt_init (mysql);
+	sql = "UPDATE history_20150722 SET id = ? , operation = ? , time = ? WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150722_upd, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_upd));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150722_upd, db_struct.par_history_20150722_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_upd));
+		return (-1);
+	}
+	db_struct.par_history_20150722_ins [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_ins [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_ins [0].buffer_length = 0;
+	db_struct.par_history_20150722_ins [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150722_ins [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150722_ins [1].buffer_length = 255;
+	db_struct.par_history_20150722_ins [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150722_ins [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150722_ins [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150722_ins [2].buffer_length = 0;
+	db_struct.par_history_20150722_ins [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150722_ins [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150722_ins [3].buffer_length = 0;
+	db_struct.stmt_history_20150722_ins = mysql_stmt_init (mysql);
+	sql = "INSERT INTO history_20150722 (id, operation, time) VALUES (?, ?, ?)";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150722_ins, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_ins));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150722_ins, db_struct.par_history_20150722_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_ins));
+		return (-1);
+	}
+	db_struct.res_history_20150723_load [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.res_history_20150723_load [0].buffer = malloc (sizeof(int));
+	db_struct.res_history_20150723_load [0].buffer_length = 0;
+	db_struct.res_history_20150723_load [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.res_history_20150723_load [1].buffer = malloc (255 + 1);
+	db_struct.res_history_20150723_load [1].buffer_length = 255;
+	db_struct.res_history_20150723_load [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.res_history_20150723_load [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.res_history_20150723_load [2].buffer_length = 0;
+	db_struct.par_history_20150723_get_by_id [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_get_by_id [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_get_by_id [0].buffer_length = 0;
+	db_struct.par_history_20150723_delete [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_delete [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_delete [0].buffer_length = 0;
+	db_struct.stmt_history_20150723_get_by_id = mysql_stmt_init (mysql);
+	sql = "SELECT id, operation, time FROM history_20150723 WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150723_get_by_id , sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150723_get_by_id, db_struct.par_history_20150723_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_result (db_struct.stmt_history_20150723_get_by_id, db_struct.res_history_20150723_load);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
+		return (-1);
+	}
+	db_struct.stmt_history_20150723_delete = mysql_stmt_init (mysql);
+	sql = "DELETE FROM history_20150723  WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150723_delete, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_delete));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150723_delete, db_struct.par_history_20150723_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
+		return (-1);
+	}
+	db_struct.par_history_20150723_save [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_save [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_save [0].buffer_length = 0;
+	db_struct.par_history_20150723_save [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150723_save [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150723_save [1].buffer_length = 255;
+	db_struct.par_history_20150723_save [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150723_save [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150723_save [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150723_save [2].buffer_length = 0;
+	db_struct.par_history_20150723_save [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_save [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_save [3].buffer_length = 0;
+	db_struct.stmt_history_20150723_save = mysql_stmt_init (mysql);
+	sql = "REPLACE history_20150723 SET id = ? , operation = ? , time = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150723_save, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_save));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150723_save, db_struct.par_history_20150723_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_save));
+		return (-1);
+	}
+	db_struct.par_history_20150723_upd [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_upd [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_upd [0].buffer_length = 0;
+	db_struct.par_history_20150723_upd [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150723_upd [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150723_upd [1].buffer_length = 255;
+	db_struct.par_history_20150723_upd [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150723_upd [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150723_upd [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150723_upd [2].buffer_length = 0;
+	db_struct.par_history_20150723_upd [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_upd [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_upd [3].buffer_length = 0;
+	db_struct.stmt_history_20150723_upd = mysql_stmt_init (mysql);
+	sql = "UPDATE history_20150723 SET id = ? , operation = ? , time = ? WHERE id = ? ";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150723_upd, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_upd));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150723_upd, db_struct.par_history_20150723_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_upd));
+		return (-1);
+	}
+	db_struct.par_history_20150723_ins [0].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_ins [0].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_ins [0].buffer_length = 0;
+	db_struct.par_history_20150723_ins [1].buffer_type = MYSQL_TYPE_STRING;
+	db_struct.par_history_20150723_ins [1].buffer = malloc (255 + 1);
+	db_struct.par_history_20150723_ins [1].buffer_length = 255;
+	db_struct.par_history_20150723_ins [1].length = malloc (sizeof (unsigned int));
+	db_struct.par_history_20150723_ins [2].buffer_type = MYSQL_TYPE_DATETIME;
+	db_struct.par_history_20150723_ins [2].buffer = malloc (sizeof (MYSQL_TIME));
+	db_struct.par_history_20150723_ins [2].buffer_length = 0;
+	db_struct.par_history_20150723_ins [3].buffer_type = MYSQL_TYPE_LONG;
+	db_struct.par_history_20150723_ins [3].buffer = malloc (sizeof(int));
+	db_struct.par_history_20150723_ins [3].buffer_length = 0;
+	db_struct.stmt_history_20150723_ins = mysql_stmt_init (mysql);
+	sql = "INSERT INTO history_20150723 (id, operation, time) VALUES (?, ?, ?)";
+	ret = mysql_stmt_prepare (db_struct.stmt_history_20150723_ins, sql, strlen (sql));
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_ins));
+		return (-1);
+	}
+	ret = mysql_stmt_bind_param (db_struct.stmt_history_20150723_ins, db_struct.par_history_20150723_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_ins));
+		return (-1);
+	}
 	return (0);
 }
 
@@ -970,7 +1494,7 @@ int db_disk_info__save (db_disk_info *record)
 	copyval_c2mysql_double (& record->disk_capacity, & db_struct.par_disk_info_save [4]);
 	copyval_c2mysql_double (& record->disk_used, & db_struct.par_disk_info_save [5]);
 	copyval_c2mysql_time (& record->recent_use_time, & db_struct.par_disk_info_save [6]);
-	copyval_c2mysql_int (& record->permisssion, & db_struct.par_disk_info_save [7]);
+	copyval_c2mysql_int (& record->permission, & db_struct.par_disk_info_save [7]);
 	copyval_c2mysql_int (& record->disk_status, & db_struct.par_disk_info_save [8]);
 	copyval_c2mysql_int (& record->disk_id, & db_struct.par_disk_info_save [9]);
 	ret = mysql_stmt_execute (db_struct.stmt_disk_info_save);
@@ -994,7 +1518,7 @@ int db_disk_info__delete (db_disk_info *record)
 	copyval_c2mysql_double (& record->disk_capacity, & db_struct.par_disk_info_delete [4]);
 	copyval_c2mysql_double (& record->disk_used, & db_struct.par_disk_info_delete [5]);
 	copyval_c2mysql_time (& record->recent_use_time, & db_struct.par_disk_info_delete [6]);
-	copyval_c2mysql_int (& record->permisssion, & db_struct.par_disk_info_delete [7]);
+	copyval_c2mysql_int (& record->permission, & db_struct.par_disk_info_delete [7]);
 	copyval_c2mysql_int (& record->disk_status, & db_struct.par_disk_info_delete [8]);
 	copyval_c2mysql_int (& record->disk_id, & db_struct.par_disk_info_delete [9]);
 	ret = mysql_stmt_execute (db_struct.stmt_disk_info_delete);
@@ -1015,7 +1539,7 @@ int db_disk_info__update (db_disk_info *record)
 	copyval_c2mysql_double (& record->disk_capacity, & db_struct.par_disk_info_upd [4]);
 	copyval_c2mysql_double (& record->disk_used, & db_struct.par_disk_info_upd [5]);
 	copyval_c2mysql_time (& record->recent_use_time, & db_struct.par_disk_info_upd [6]);
-	copyval_c2mysql_int (& record->permisssion, & db_struct.par_disk_info_upd [7]);
+	copyval_c2mysql_int (& record->permission, & db_struct.par_disk_info_upd [7]);
 	copyval_c2mysql_int (& record->disk_status, & db_struct.par_disk_info_upd [8]);
 	copyval_c2mysql_int (& record->disk_id, & db_struct.par_disk_info_upd [9]);
 	ret = mysql_stmt_execute (db_struct.stmt_disk_info_upd);
@@ -1036,7 +1560,7 @@ int db_disk_info__insert (db_disk_info *record)
 	copyval_c2mysql_double (& record->disk_capacity, & db_struct.par_disk_info_ins [4]);
 	copyval_c2mysql_double (& record->disk_used, & db_struct.par_disk_info_ins [5]);
 	copyval_c2mysql_time (& record->recent_use_time, & db_struct.par_disk_info_ins [6]);
-	copyval_c2mysql_int (& record->permisssion, & db_struct.par_disk_info_ins [7]);
+	copyval_c2mysql_int (& record->permission, & db_struct.par_disk_info_ins [7]);
 	copyval_c2mysql_int (& record->disk_status, & db_struct.par_disk_info_ins [8]);
 	copyval_c2mysql_int (& record->disk_id, & db_struct.par_disk_info_ins [9]);
 	ret = mysql_stmt_execute (db_struct.stmt_disk_info_ins);
@@ -1072,7 +1596,7 @@ db_disk_info *db_disk_info__get_by_id (int disk_id)
 	copyval_mysql2c_double (& db_struct.res_disk_info_load [4], & rec->disk_capacity);
 	copyval_mysql2c_double (& db_struct.res_disk_info_load [5], & rec->disk_used);
 	copyval_mysql2c_time (& db_struct.res_disk_info_load [6], & rec->recent_use_time);
-	copyval_mysql2c_int (& db_struct.res_disk_info_load [7], & rec->permisssion);
+	copyval_mysql2c_int (& db_struct.res_disk_info_load [7], & rec->permission);
 	copyval_mysql2c_int (& db_struct.res_disk_info_load [8], & rec->disk_status);
 	ret = mysql_stmt_reset (db_struct.stmt_disk_info_get_by_id);
 	if (ret) {
@@ -1242,6 +1766,430 @@ db_file_info *db_file_info__get_by_id (int file_id)
 	ret = mysql_stmt_reset (db_struct.stmt_file_info_get_by_id);
 	if (ret) {
 		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_file_info_get_by_id));
+		return (NULL);
+	}
+	return (rec);
+}
+db_history_20150716 *db_history_20150716__new ()
+{
+	db_history_20150716 *r;
+	r = malloc (sizeof (db_history_20150716));
+	memset (r, 0, sizeof (db_history_20150716));
+	return (r);
+}
+
+void db_history_20150716__free (db_history_20150716 *rec)
+{
+	if (rec->operation != NULL) free (rec->operation);
+	free (rec);
+}
+
+int db_history_20150716__save (db_history_20150716 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_save [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150716_save [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150716_save [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_save [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150716_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_save));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150716_save);
+	}
+	return (0);
+}
+int db_history_20150716__delete (db_history_20150716 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_delete [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150716_delete [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150716_delete [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_delete [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150716_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_delete));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150716__update (db_history_20150716 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_upd [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150716_upd [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150716_upd [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_upd [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150716_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_upd));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150716__insert (db_history_20150716 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_ins [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150716_ins [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150716_ins [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150716_ins [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150716_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_ins));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150716_ins);
+	}
+	return (0);
+}
+db_history_20150716 *db_history_20150716__get_by_id (int id)
+{
+	int ret;
+	db_history_20150716 *rec;
+	copyval_c2mysql_int (& id, & db_struct.par_history_20150716_get_by_id [0]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150716_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (NULL);
+	}
+	ret = mysql_stmt_fetch (db_struct.stmt_history_20150716_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (NULL);
+	}
+	rec = db_history_20150716__new ();
+	copyval_mysql2c_int (& db_struct.res_history_20150716_load [0], & rec->id);
+	copyval_mysql2c_char (& db_struct.res_history_20150716_load [1], & rec->operation);
+	copyval_mysql2c_time (& db_struct.res_history_20150716_load [2], & rec->time);
+	ret = mysql_stmt_reset (db_struct.stmt_history_20150716_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150716_get_by_id));
+		return (NULL);
+	}
+	return (rec);
+}
+db_history_20150720 *db_history_20150720__new ()
+{
+	db_history_20150720 *r;
+	r = malloc (sizeof (db_history_20150720));
+	memset (r, 0, sizeof (db_history_20150720));
+	return (r);
+}
+
+void db_history_20150720__free (db_history_20150720 *rec)
+{
+	if (rec->operation != NULL) free (rec->operation);
+	free (rec);
+}
+
+int db_history_20150720__save (db_history_20150720 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_save [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150720_save [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150720_save [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_save [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150720_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_save));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150720_save);
+	}
+	return (0);
+}
+int db_history_20150720__delete (db_history_20150720 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_delete [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150720_delete [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150720_delete [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_delete [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150720_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_delete));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150720__update (db_history_20150720 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_upd [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150720_upd [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150720_upd [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_upd [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150720_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_upd));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150720__insert (db_history_20150720 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_ins [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150720_ins [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150720_ins [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150720_ins [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150720_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_ins));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150720_ins);
+	}
+	return (0);
+}
+db_history_20150720 *db_history_20150720__get_by_id (int id)
+{
+	int ret;
+	db_history_20150720 *rec;
+	copyval_c2mysql_int (& id, & db_struct.par_history_20150720_get_by_id [0]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150720_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (NULL);
+	}
+	ret = mysql_stmt_fetch (db_struct.stmt_history_20150720_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (NULL);
+	}
+	rec = db_history_20150720__new ();
+	copyval_mysql2c_int (& db_struct.res_history_20150720_load [0], & rec->id);
+	copyval_mysql2c_char (& db_struct.res_history_20150720_load [1], & rec->operation);
+	copyval_mysql2c_time (& db_struct.res_history_20150720_load [2], & rec->time);
+	ret = mysql_stmt_reset (db_struct.stmt_history_20150720_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150720_get_by_id));
+		return (NULL);
+	}
+	return (rec);
+}
+db_history_20150722 *db_history_20150722__new ()
+{
+	db_history_20150722 *r;
+	r = malloc (sizeof (db_history_20150722));
+	memset (r, 0, sizeof (db_history_20150722));
+	return (r);
+}
+
+void db_history_20150722__free (db_history_20150722 *rec)
+{
+	if (rec->operation != NULL) free (rec->operation);
+	free (rec);
+}
+
+int db_history_20150722__save (db_history_20150722 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_save [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150722_save [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150722_save [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_save [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150722_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_save));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150722_save);
+	}
+	return (0);
+}
+int db_history_20150722__delete (db_history_20150722 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_delete [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150722_delete [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150722_delete [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_delete [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150722_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_delete));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150722__update (db_history_20150722 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_upd [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150722_upd [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150722_upd [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_upd [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150722_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_upd));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150722__insert (db_history_20150722 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_ins [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150722_ins [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150722_ins [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150722_ins [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150722_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_ins));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150722_ins);
+	}
+	return (0);
+}
+db_history_20150722 *db_history_20150722__get_by_id (int id)
+{
+	int ret;
+	db_history_20150722 *rec;
+	copyval_c2mysql_int (& id, & db_struct.par_history_20150722_get_by_id [0]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150722_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (NULL);
+	}
+	ret = mysql_stmt_fetch (db_struct.stmt_history_20150722_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (NULL);
+	}
+	rec = db_history_20150722__new ();
+	copyval_mysql2c_int (& db_struct.res_history_20150722_load [0], & rec->id);
+	copyval_mysql2c_char (& db_struct.res_history_20150722_load [1], & rec->operation);
+	copyval_mysql2c_time (& db_struct.res_history_20150722_load [2], & rec->time);
+	ret = mysql_stmt_reset (db_struct.stmt_history_20150722_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150722_get_by_id));
+		return (NULL);
+	}
+	return (rec);
+}
+db_history_20150723 *db_history_20150723__new ()
+{
+	db_history_20150723 *r;
+	r = malloc (sizeof (db_history_20150723));
+	memset (r, 0, sizeof (db_history_20150723));
+	return (r);
+}
+
+void db_history_20150723__free (db_history_20150723 *rec)
+{
+	if (rec->operation != NULL) free (rec->operation);
+	free (rec);
+}
+
+int db_history_20150723__save (db_history_20150723 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_save [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150723_save [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150723_save [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_save [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150723_save);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_save));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150723_save);
+	}
+	return (0);
+}
+int db_history_20150723__delete (db_history_20150723 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_delete [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150723_delete [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150723_delete [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_delete [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150723_delete);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_delete));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150723__update (db_history_20150723 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_upd [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150723_upd [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150723_upd [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_upd [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150723_upd);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_upd));
+		return (-1);
+	}
+	return (0);
+}
+int db_history_20150723__insert (db_history_20150723 *record)
+{
+	int ret;
+	
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_ins [0]);
+	copyval_c2mysql_char (& record->operation, & db_struct.par_history_20150723_ins [1]);
+	copyval_c2mysql_time (& record->time, & db_struct.par_history_20150723_ins [2]);
+	copyval_c2mysql_int (& record->id, & db_struct.par_history_20150723_ins [3]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150723_ins);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_ins));
+		return (-1);
+	}
+	if (record->id == 0) {
+		record->id = mysql_stmt_insert_id (db_struct.stmt_history_20150723_ins);
+	}
+	return (0);
+}
+db_history_20150723 *db_history_20150723__get_by_id (int id)
+{
+	int ret;
+	db_history_20150723 *rec;
+	copyval_c2mysql_int (& id, & db_struct.par_history_20150723_get_by_id [0]);
+	ret = mysql_stmt_execute (db_struct.stmt_history_20150723_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
+		return (NULL);
+	}
+	ret = mysql_stmt_fetch (db_struct.stmt_history_20150723_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
+		return (NULL);
+	}
+	rec = db_history_20150723__new ();
+	copyval_mysql2c_int (& db_struct.res_history_20150723_load [0], & rec->id);
+	copyval_mysql2c_char (& db_struct.res_history_20150723_load [1], & rec->operation);
+	copyval_mysql2c_time (& db_struct.res_history_20150723_load [2], & rec->time);
+	ret = mysql_stmt_reset (db_struct.stmt_history_20150723_get_by_id);
+	if (ret) {
+		fprintf (stderr, __FILE__":%d: error (%s)\n", __LINE__, mysql_stmt_error (db_struct.stmt_history_20150723_get_by_id));
 		return (NULL);
 	}
 	return (rec);

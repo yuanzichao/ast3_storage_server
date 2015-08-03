@@ -26,7 +26,7 @@ typedef struct db_disk_info {
 	double disk_capacity;
 	double disk_used;
 	time_t recent_use_time;
-	int permisssion;
+	int permission;
 	int disk_status;
 } db_disk_info;
 typedef struct db_file_info {
@@ -45,6 +45,26 @@ typedef struct db_file_info {
 	int file_type;
 	int accessed_time;
 } db_file_info;
+typedef struct db_history_20150716 {
+	int id;
+	char * operation;
+	time_t time;
+} db_history_20150716;
+typedef struct db_history_20150720 {
+	int id;
+	char * operation;
+	time_t time;
+} db_history_20150720;
+typedef struct db_history_20150722 {
+	int id;
+	char * operation;
+	time_t time;
+} db_history_20150722;
+typedef struct db_history_20150723 {
+	int id;
+	char * operation;
+	time_t time;
+} db_history_20150723;
 int db_init (MYSQL *);
 
 db_directory_info *db_directory_info__new ();
@@ -70,6 +90,38 @@ int db_file_info__update (db_file_info *record);
 int db_file_info__insert (db_file_info *record);
 int db_file_info__delete (db_file_info *record);
 db_file_info *db_file_info__get_by_id (int file_id);
+
+db_history_20150716 *db_history_20150716__new ();
+void db_history_20150716__free (db_history_20150716*);
+int db_history_20150716__save (db_history_20150716 *record);
+int db_history_20150716__update (db_history_20150716 *record);
+int db_history_20150716__insert (db_history_20150716 *record);
+int db_history_20150716__delete (db_history_20150716 *record);
+db_history_20150716 *db_history_20150716__get_by_id (int id);
+
+db_history_20150720 *db_history_20150720__new ();
+void db_history_20150720__free (db_history_20150720*);
+int db_history_20150720__save (db_history_20150720 *record);
+int db_history_20150720__update (db_history_20150720 *record);
+int db_history_20150720__insert (db_history_20150720 *record);
+int db_history_20150720__delete (db_history_20150720 *record);
+db_history_20150720 *db_history_20150720__get_by_id (int id);
+
+db_history_20150722 *db_history_20150722__new ();
+void db_history_20150722__free (db_history_20150722*);
+int db_history_20150722__save (db_history_20150722 *record);
+int db_history_20150722__update (db_history_20150722 *record);
+int db_history_20150722__insert (db_history_20150722 *record);
+int db_history_20150722__delete (db_history_20150722 *record);
+db_history_20150722 *db_history_20150722__get_by_id (int id);
+
+db_history_20150723 *db_history_20150723__new ();
+void db_history_20150723__free (db_history_20150723*);
+int db_history_20150723__save (db_history_20150723 *record);
+int db_history_20150723__update (db_history_20150723 *record);
+int db_history_20150723__insert (db_history_20150723 *record);
+int db_history_20150723__delete (db_history_20150723 *record);
+db_history_20150723 *db_history_20150723__get_by_id (int id);
 
 #ifdef __cplusplus
 }
